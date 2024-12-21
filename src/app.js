@@ -37,9 +37,6 @@ function createWindow () {
 
   let wc = mainWindow.webContents
 
-  wc.on('did-finish-load', () => {
-  });
-
   wc.on("dom-ready", function () {
     console.log("Ready To DOMinate!");
     // insert CSS Code into Grok to hide and modifiy certain elements to look better for app wrapper
@@ -57,18 +54,17 @@ function createWindow () {
           width: 100% !important;
         }
     `);
-    
-    // Inserts CSS Code to modifiy Grok to work better for app wrapper
-    wc.executeJavaScript(`
-        
-    `)
-  });
-  
+    });
+
+    wc.on('did-finish-load', () => {
+    });
+
   wc.on('page-title-updated', (event, title) => {
     event.preventDefault()
     mainWindow.setTitle('Grok Desktop') // or dynamically set based on some logic
-  })
+  });
 }
+
 
 app.whenReady().then(() => {
   createWindow();

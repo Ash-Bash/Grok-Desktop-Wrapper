@@ -36,4 +36,4 @@ npm run build
 
 
 ## Todos
-* Ability to Sign-out (will require some JS/HTML injection)
+* Ability to Sign-out (will require some JS/HTML injection or wipe the cookies from electron's end with a button somewhere)
