@@ -1,0 +1,85 @@
+{
+  "name": "grok-desktop",
+  "version": "1.0.0",
+  "description": "A Web App Wrapper for X/Grok",
+  "repository": "https://github.com/Ash-Bash/Grok-Desktop-Wrapper",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "electron .",
+    "prebuild": "rimraf ./dists/*",
+    "build": "npm run prebuild && electron-builder"
+  },
+  "build": {
+    "appId": "com.ashleychapman.wrapper.grokdesktop",
+    "productName": "Grok Desktop",
+    "icon": "./assets/GrokDesktop_DS_Icon.ico",
+    "win": {
+        "target": [  
+            {
+                "target": "nsis",
+                "arch": [
+                    "x64", 
+                    "ia32", 
+                    "arm64"
+                ]
+            }
+        ]
+    },
+    "mac": {
+        "target": [ 
+            {
+                "target": "dmg",
+                "arch": [
+                    "universal" 
+                ]
+            }
+        ]
+    },
+    "linux": {
+        "target": [ 
+            {
+                "target": "AppImage",
+                "arch": [
+                    "x64",
+                    "armv7l", 
+                    "arm64"
+                ]
+            }
+        ]
+    },
+    "directories": {
+      "output": "./dists"
+    },
+    "publish": {
+        "provider": "github",
+        "owner": "Ash-Bash",
+        "repo": "https://github.com/Ash-Bash/Grok-Desktop-Wrapper"
+    },
+    "nsis": {
+        "oneClick": false,
+        "installerIcon": "./assets/GrokDesktop_DS_Icon.ico",
+        "uninstallerIcon": "./assets/GrokDesktop_DS_Icon.ico",
+        "uninstallDisplayName": "Uninstall Grok Desktop",
+        "allowToChangeInstallationDirectory": true
+      }
+  },
+  "keywords": [
+    "grok",
+    "elon",
+    "x",
+    "musk",
+    "app",
+    "electron"
+  ],
+  "author": "Ashley James Chapman",
+  "license": "GNU",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.6.0",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "electron-packager": "^17.1.2"
+  },
+  "dependencies": {
+    "jquery": "^3.7.1"
+  }
+}
