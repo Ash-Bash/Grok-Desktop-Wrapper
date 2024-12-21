@@ -4,6 +4,8 @@
 
 The Grok Desktop Application Wrapper is a versatile tool designed to run on all platforms and architectures. It allows you to use Grok without the need to open a web browser, as it encapsulates the application in its own dedicated wrapper, effectively turning it into a standalone app.
 
+```CommandOrControl+Shift+L``` Keyboard Shortcut to Logout
+
 ## Installation
 Binaries Coming Soon
 
@@ -36,4 +38,4 @@ npm run build
 
 
 ## Todos
-* Ability to Sign-out (will require some JS/HTML injection or wipe the cookies from electron's end with a button somewhere)
+* Ability to Sign-out - Partically Done (using ```CommandOrControl+Shift+L``` Keyboard Shortcut to Logout)

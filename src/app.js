@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, session, BrowserWindow, globalShortcut, ipcMain } = require('electron');
 const path = require('path');
 const { screen } = require('electron');
 
@@ -63,6 +63,13 @@ function createWindow () {
     event.preventDefault()
     mainWindow.setTitle('Grok Desktop') // or dynamically set based on some logic
   });
+
+  // Register the global shortcut when the app is ready
+  globalShortcut.register('CommandOrControl+Shift+L', () => {
+    session.defaultSession.clearStorageData();
+    // Now redirect or close window if necessary
+    mainWindow.loadURL("https://x.com/i/grok");
+  });
 }
 
 
@@ -81,4 +88,13 @@ app.on('window-all-closed', function () {
 // IPC handler for any communication from renderer to main
 app.on('from-renderer', (event, arg) => {
     console.log('Received from renderer:', arg);
+});
+
+// Handle the event from renderer if you need to do operations there
+app.on('clear-login-details', (event) => {
+  event.sender.executeJavaScript(`
+    localStorage.clear();
+    sessionStorage.clear();
+    `);
+    console.log("Tester!");
 });
