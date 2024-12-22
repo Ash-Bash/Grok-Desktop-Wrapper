@@ -33,6 +33,11 @@ or
 npm run build
 ```
 
+### if Electron-Builder fails (install as a Global Package)
+```
+npm install -g electron-builder
+```
+
 Bineries get built in the ```./dist``` Directory
 
 ### Requirements

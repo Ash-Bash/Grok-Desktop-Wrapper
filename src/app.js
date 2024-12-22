@@ -1,4 +1,4 @@
-const { app, session, BrowserWindow, globalShortcut, ipcMain } = require('electron');
+const { app, session, BrowserWindow, globalShortcut, ipcMain, Menu  } = require('electron');
 const path = require('path');
 const { screen } = require('electron');
 
@@ -79,7 +79,48 @@ app.whenReady().then(() => {
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+
+  const template = [
+    {
+      label: app.getName(),
+      submenu: [
+        {
+          label: 'About ' + app.getName(),
+          role: 'about'
+        },
+        { type: 'separator' },
+        { 
+          label: 'Hide ' + app.getName(),
+          accelerator: 'Command+H',
+          role: 'hide'
+        },
+        { 
+          label: 'Hide Others',
+          accelerator: 'Command+Shift+H',
+          role: 'hideOthers'
+        },
+        { 
+          label: 'Show All',
+          role: 'unhide'
+        },
+        { type: 'separator' },
+        {
+          label: 'Quit',
+          accelerator: 'Command+Q',
+          click: () => {
+            app.quit();
+          }
+        }
+      ]
+    }
+  ];
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 })
+
+app.on('ready', () => {
+  Menu.setApplicationMenu(null);
+});
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()

@@ -10,7 +10,7 @@
     "clean:win": "",
     "clean:linux": "",
     "prebuild": "rimraf --glob ./dists/*",
-    "build": "sudo npm run prebuild && sudo electron-builder"
+    "build": "npm run prebuild && electron-builder"
   },
   "build": {
     "appId": "com.ashleychapman.wrapper.grokdesktop",
@@ -29,6 +29,7 @@
         ]
     },
     "mac": {
+      "icon": "./assets/GrokDesktop_DS_512_Icon.png",
         "target": [ 
             {
                 "target": "dmg",
