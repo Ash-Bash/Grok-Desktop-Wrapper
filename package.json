@@ -6,8 +6,11 @@
   "main": "src/app.js",
   "scripts": {
     "start": "electron .",
-    "prebuild": "rimraf ./dists/*",
-    "build": "npm run prebuild && electron-builder"
+    "clean": "npm run clean:win && npm run clean:linux",
+    "clean:win": "",
+    "clean:linux": "",
+    "prebuild": "rimraf --glob ./dists/*",
+    "build": "sudo npm run prebuild && sudo electron-builder"
   },
   "build": {
     "appId": "com.ashleychapman.wrapper.grokdesktop",
@@ -36,6 +39,7 @@
         ]
     },
     "linux": {
+        "icon": "./assets/GrokDesktop_DS_256_Icon.png",
         "target": [ 
             {
                 "target": "AppImage",
@@ -44,7 +48,15 @@
                     "armv7l", 
                     "arm64"
                 ]
-            }
+            },
+            {
+              "target": "deb",
+              "arch": [
+                  "x64",
+                  "armv7l", 
+                  "arm64"
+              ]
+          }
         ]
     },
     "directories": {
