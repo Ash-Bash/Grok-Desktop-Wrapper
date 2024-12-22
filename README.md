@@ -47,3 +47,4 @@ Bineries get built in the ```./dist``` Directory
 
 ## Todos
 * Ability to Sign-out - Partically Done (using ```CommandOrControl+Shift+L``` Keyboard Shortcut to Logout)
+* Buildchain needs more work
