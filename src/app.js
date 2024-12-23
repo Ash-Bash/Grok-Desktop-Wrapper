@@ -43,7 +43,9 @@ function createWindow () {
     wc.insertCSS(`
         header.css-175oi2r.r-lrvibr.r-1g40b8q.r-obd0qt.r-16y2uox, 
         button.css-175oi2r.r-sdzlij.r-1phboty.r-rs99b7.r-lrvibr.r-10v3vxq.r-2yi16.r-1qi8awa.r-1loqt21.r-o7ynqc.r-6416eg.r-1ny4l3l,
-        button.css-175oi2r.r-sdzlij.r-1phboty.r-rs99b7.r-lrvibr.r-10v3vxq.r-15ysp7h.r-4wgw6l.r-1loqt21.r-o7ynqc.r-6416eg.r-1ny4l3l {
+        button.css-175oi2r.r-sdzlij.r-1phboty.r-rs99b7.r-lrvibr.r-10v3vxq.r-15ysp7h.r-4wgw6l.r-1loqt21.r-o7ynqc.r-6416eg.r-1ny4l3l,
+        div.r-zchlnj.r-1d2f490.r-u8s1d.r-ipm5af,
+        div.css-175oi2r.r-1awozwy.r-1sw30gj.r-15ce4ve r-18u37iz r-1d7fvdj.r-1mmae3n.r-3pj75a.r-13qz1uu {
           display: none !important;
         }
         main.css-175oi2r.r-150rngu.r-16y2uox.r-1wbh5a2.r-rthrr5, 
