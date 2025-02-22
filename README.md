@@ -48,3 +48,14 @@ Bineries get built in the ```./dist``` Directory
 ## Todos
 * Ability to Sign-out - Partically Done (using ```CommandOrControl+Shift+L``` Keyboard Shortcut to Logout)
 * Buildchain needs more work
+
+## Screenshots
+
+### Windows
+![Snapshot of Grok Desktop Running](appsnapshot.png)
+
+### macOS
+![Snapshot of Grok Desktop Running](appsnapshot_macOS.png)
+
+### Linux
+![Snapshot of Grok Desktop Running](appsnapshot_linux.png)
