@@ -1,6 +1,6 @@
 {
   "name": "grok-desktop",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "A Web App Wrapper for X/Grok",
   "repository": "https://github.com/Ash-Bash/Grok-Desktop-Wrapper",
   "main": "src/app.js",

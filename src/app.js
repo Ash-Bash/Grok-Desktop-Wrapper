@@ -33,14 +33,15 @@ function createWindow () {
   });
 
   // Loads Grok Homepage
-  mainWindow.loadURL("https://x.com/i/grok");
+  //mainWindow.loadURL("https://x.com/i/grok");
+  mainWindow.loadURL("https://grok.com/");
 
   let wc = mainWindow.webContents
 
   wc.on("dom-ready", function () {
     console.log("Ready To DOMinate!");
     // insert CSS Code into Grok to hide and modifiy certain elements to look better for app wrapper
-    wc.insertCSS(`
+    /*wc.insertCSS(`
         header.css-175oi2r.r-lrvibr.r-1g40b8q.r-obd0qt.r-16y2uox, 
         button.css-175oi2r.r-sdzlij.r-1phboty.r-rs99b7.r-lrvibr.r-10v3vxq.r-2yi16.r-1qi8awa.r-1loqt21.r-o7ynqc.r-6416eg.r-1ny4l3l,
         button.css-175oi2r.r-sdzlij.r-1phboty.r-rs99b7.r-lrvibr.r-10v3vxq.r-15ysp7h.r-4wgw6l.r-1loqt21.r-o7ynqc.r-6416eg.r-1ny4l3l,
@@ -55,7 +56,7 @@ function createWindow () {
         div.css-175oi2r.r-150rngu.r-16y2uox.r-1wbh5a2.r-1obr2lp {
           width: 100% !important;
         }
-    `);
+    `);*/
     });
 
     wc.on('did-finish-load', () => {
@@ -70,7 +71,8 @@ function createWindow () {
   globalShortcut.register('CommandOrControl+Shift+L', () => {
     session.defaultSession.clearStorageData();
     // Now redirect or close window if necessary
-    mainWindow.loadURL("https://x.com/i/grok");
+    //mainWindow.loadURL("https://x.com/i/grok");
+    mainWindow.loadURL("https://grok.com/");
   });
 }
 
