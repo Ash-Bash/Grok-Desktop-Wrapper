@@ -23,7 +23,9 @@ function createWindow () {
     title: "Grok Desktop",
     icon: path.join(__dirname, '../assets/GrokDesktop_DS_Icon.png'),
     autoHideMenuBar: true,
+    backgroundColor: '#1a1a1a',
     webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
       webviewTag: true,
@@ -35,6 +37,12 @@ function createWindow () {
   // Loads Grok Homepage
   //mainWindow.loadURL("https://x.com/i/grok");
   mainWindow.loadURL("https://grok.com/");
+
+  // Show window when content is ready
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+    //mainWindow.webContents.openDevTools(); // Optional
+  });
 
   let wc = mainWindow.webContents
 
@@ -74,8 +82,15 @@ function createWindow () {
     //mainWindow.loadURL("https://x.com/i/grok");
     mainWindow.loadURL("https://grok.com/");
   });
-}
 
+  ipcMain.on('show-context-menu', () => {
+    const contextMenu = Menu.buildFromTemplate([
+      { label: 'Copy', role: 'copy' },
+      { label: 'Paste', role: 'paste' },
+    ]);
+    contextMenu.popup({ window: mainWindow });
+  });
+}
 
 app.whenReady().then(() => {
   createWindow();
