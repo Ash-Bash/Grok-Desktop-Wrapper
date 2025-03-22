@@ -116,15 +116,27 @@ app.whenReady().then(() => {
           }
         }
       ]
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'selectAll' }
+      ]
     }
   ];
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 })
 
-app.on('ready', () => {
-  Menu.setApplicationMenu(null);
-});
+// Remove or comment out this line to keep the menue active
+// app.on('ready', () => {
+//  Menu.setApplicationMenu(null);
+// });
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
