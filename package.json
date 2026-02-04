@@ -13,6 +13,7 @@
     "build": "npm run prebuild && electron-builder"
   },
   "build": {
+    "forceCodeSigning": false,
     "appId": "com.ashleychapman.wrapper.grokdesktop",
     "productName": "Grok Desktop",
     "icon": "./assets/GrokDesktop_DS_Icon.ico",
