@@ -1,6 +1,6 @@
 {
   "name": "grok-desktop",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A Web App Wrapper for X/Grok",
   "repository": "https://github.com/Ash-Bash/Grok-Desktop-Wrapper",
   "main": "src/app.js",
@@ -88,13 +88,31 @@
   "email": "example@example.com",
   "license": "GNU",
   "devDependencies": {
-    "@electron-forge/cli": "^7.6.0",
-    "electron": "33.2.1",
-    "electron-builder": "^25.1.8",
+    "@electron-forge/cli": "^7.11.1",
+    "electron": "^40.1.0",
+    "electron-builder": "^26.7.0",
     "electron-packager": "^17.1.2",
-    "rimraf": "^6.0.1"
+    "rimraf": "^6.1.2"
   },
   "dependencies": {
+    "electron-context-menu": "^4.1.1",
     "jquery": "^3.7.1"
+  },
+  "overrides": {
+    "tar": "^7.5.3",
+    "node-tar": "^7.5.3",
+    "tmp": "^0.2.4",
+    "@electron/node-gyp": {
+      "make-fetch-happen": {
+        "cacache": {
+          "tar": "^7.5.3"
+        }
+      }
+    },
+    "@inquirer/editor": {
+      "external-editor": {
+        "tmp": "^0.2.4"
+      }
+    }
   }
 }
