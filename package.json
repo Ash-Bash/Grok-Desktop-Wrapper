@@ -4,13 +4,15 @@
   "description": "A Web App Wrapper for X/Grok",
   "repository": "https://github.com/Ash-Bash/Grok-Desktop-Wrapper",
   "main": "src/app.js",
+  "author": {
+    "name": "Ashley Chapman",
+    "email": "xpsx.fan@gmail.com"
+  },
   "scripts": {
     "start": "electron .",
-    "clean": "npm run clean:win && npm run clean:linux",
-    "clean:win": "",
-    "clean:linux": "",
-    "prebuild": "rimraf --glob ./dists/*",
-    "build": "npm run prebuild && electron-builder"
+    "prebuild": "rimraf dists",
+    "build": "npm run prebuild && electron-builder",
+    "clean": "rimraf dists"
   },
   "build": {
     "forceCodeSigning": false,
@@ -40,8 +42,13 @@
         }
       ]
     },
+    
     "linux": {
+      "maintainer": "Ashley Chapman <xpsx.fan@gmail.com>",
       "icon": "./assets/GrokDesktop_DS_256_Icon.png",
+      "category": "Network;ArtificialIntelligence;",
+      "synopsis": "Grok Desktop - Web wrapper for Grok/X",
+      "description": "A desktop wrapper application for Grok (by xAI) and X.com",
       "target": [
         {
           "target": "AppImage",
@@ -58,8 +65,18 @@
             "armv7l",
             "arm64"
           ]
+        },
+        {
+          "target": "rpm",
+          "arch": [
+            "x64",
+            "armv7l",
+            "arm64"
+          ]
         }
-      ]
+      ],
+      "asarUnpack": ["**/*.node", "**/*.so"],
+      "executableName": "grok-desktop"
     },
     "directories": {
       "output": "./dists"

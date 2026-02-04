@@ -156,7 +156,7 @@ function createWindow() {
     }
   });
 
-  // Handle external links - open them in the default browser instead of within the app
+  /*// Handle external links - open them in the default browser instead of within the app
   wc.setWindowOpenHandler(({ url }) => {
     // Check if the URL is external (not part of grok.com domain)
     if (url && !url.startsWith('https://grok.com') && !url.startsWith('https://x.com/i/grok')) {
@@ -178,7 +178,7 @@ function createWindow() {
     // For all other URLs, prevent navigation and open in external browser
     event.preventDefault();
     shell.openExternal(navigationUrl);
-  });
+  });*/
 
   // Shortcut: clear session + reload
   globalShortcut.register('CommandOrControl+Shift+L', async () => {
