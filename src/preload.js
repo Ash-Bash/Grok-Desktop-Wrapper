@@ -4,7 +4,9 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 if (!window.electronAPI) {
     contextBridge.exposeInMainWorld('electronAPI', {
-      showContextMenu: () => ipcRenderer.send('show-context-menu'),
+      //showContextMenu: () => ipcRenderer.send('show-context-menu'),
+      clearLogin: () => ipcRenderer.send('clear-login-details'),
+      version: process.versions.electron
     });
 } else {
     console.warn('electronAPI already exists on window, skipping redefinition');
