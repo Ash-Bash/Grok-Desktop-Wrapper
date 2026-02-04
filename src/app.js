@@ -156,6 +156,30 @@ function createWindow() {
     }
   });
 
+  // Handle external links - open them in the default browser instead of within the app
+  wc.setWindowOpenHandler(({ url }) => {
+    // Check if the URL is external (not part of grok.com domain)
+    if (url && !url.startsWith('https://grok.com') && !url.startsWith('https://x.com/i/grok')) {
+      shell.openExternal(url);
+      return { action: 'deny' }; // Prevent opening in the app
+    }
+    return { action: 'allow' }; // Allow grok.com links to open within the app
+  });
+
+  // Handle navigation attempts to external URLs
+  wc.on('will-navigate', (event, navigationUrl) => {
+    // Allow navigation within grok.com and x.com/i/grok
+    if (navigationUrl.startsWith('https://grok.com') || 
+        navigationUrl.startsWith('https://x.com/i/grok') ||
+        navigationUrl.startsWith('https://x.com/login')) {
+      return; // Allow the navigation
+    }
+    
+    // For all other URLs, prevent navigation and open in external browser
+    event.preventDefault();
+    shell.openExternal(navigationUrl);
+  });
+
   // Shortcut: clear session + reload
   globalShortcut.register('CommandOrControl+Shift+L', async () => {
     await session.defaultSession.clearStorageData();
