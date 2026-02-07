@@ -151,6 +151,9 @@ function createWindow() {
       );
     }
 
+    /* ======================
+       Grok Reload
+    ====================== */
     menuTemplate.push({ type: 'separator' });
     menuTemplate.push({ 
       role: 'reload', 
