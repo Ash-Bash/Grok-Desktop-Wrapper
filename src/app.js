@@ -151,6 +151,13 @@ function createWindow() {
       );
     }
 
+    menuTemplate.push({ type: 'separator' });
+    menuTemplate.push({ 
+      role: 'reload', 
+      accelerator: 'CmdOrCtrl+R',
+      click: () => wc.reload() 
+    });
+
     if (menuTemplate.length > 0) {
       Menu.buildFromTemplate(menuTemplate).popup({ window: mainWindow });
     }

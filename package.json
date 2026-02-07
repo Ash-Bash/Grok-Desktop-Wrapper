@@ -1,6 +1,6 @@
 {
   "name": "grok-desktop",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "A Web App Wrapper for X/Grok",
   "repository": "https://github.com/Ash-Bash/Grok-Desktop-Wrapper",
   "main": "src/app.js",
@@ -103,7 +103,7 @@
     "electron"
   ],
   "author": "Ashley James Chapman",
-  "email": "example@example.com",
+  "email": "xpsx.fan@gmail.com",
   "license": "GNU",
   "devDependencies": {
     "@electron-forge/cli": "^7.11.1",
