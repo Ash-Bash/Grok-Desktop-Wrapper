@@ -1,4 +1,4 @@
-const { app, session, BrowserWindow, globalShortcut, ipcMain, Tray, Menu, screen, shell, nativeTheme } = require('electron');
+const { app, session, BrowserWindow, globalShortcut, ipcMain, Tray, Menu, screen, shell, nativeTheme, Notification } = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const path = require('path');
 
@@ -83,6 +83,13 @@ function createWindow() {
       }, true);
     `);
   });
+
+  // Notification permission request (for Grok's web notifications)
+  wc.executeJavaScript(`
+    if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+      Notification.requestPermission();
+    }
+  `);
 
   /* ======================================================
      NATIVE CONTEXT MENU (SPELLCHECK + EDIT + SEARCH + DEV)
