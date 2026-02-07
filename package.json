@@ -4,10 +4,7 @@
   "description": "A Web App Wrapper for X/Grok",
   "repository": "https://github.com/Ash-Bash/Grok-Desktop-Wrapper",
   "main": "src/app.js",
-  "author": {
-    "name": "Ashley Chapman",
-    "email": "xpsx.fan@gmail.com"
-  },
+  "author": "Ashley James Chapman",
   "scripts": {
     "start": "electron .",
     "prebuild": "rimraf dists",
@@ -19,6 +16,12 @@
     "appId": "com.ashleychapman.wrapper.grokdesktop",
     "productName": "Grok Desktop",
     "icon": "./assets/GrokDesktop_DS_Icon.ico",
+    "extraResources": [
+      "assets/**/*"
+    ],
+    "files": [
+      "**/*"
+    ],
     "win": {
       "target": [
         {
@@ -42,7 +45,6 @@
         }
       ]
     },
-    
     "linux": {
       "maintainer": "Ashley Chapman <xpsx.fan@gmail.com>",
       "icon": "./assets/GrokDesktop_DS_256_Icon.png",
@@ -75,7 +77,10 @@
           ]
         }
       ],
-      "asarUnpack": ["**/*.node", "**/*.so"],
+      "asarUnpack": [
+        "**/*.node",
+        "**/*.so"
+      ],
       "executableName": "grok-desktop"
     },
     "directories": {
@@ -102,7 +107,6 @@
     "app",
     "electron"
   ],
-  "author": "Ashley James Chapman",
   "email": "xpsx.fan@gmail.com",
   "license": "GNU",
   "devDependencies": {
@@ -114,6 +118,7 @@
   },
   "dependencies": {
     "electron-context-menu": "^4.1.1",
+    "electron-window-state": "^5.0.3",
     "jquery": "^3.7.1"
   },
   "overrides": {

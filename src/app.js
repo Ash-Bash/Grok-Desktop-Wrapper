@@ -1,7 +1,11 @@
-const { app, session, BrowserWindow, globalShortcut, ipcMain, Menu, screen, shell } = require('electron');
+const { app, session, BrowserWindow, globalShortcut, ipcMain, Tray, Menu, screen, shell, nativeTheme } = require('electron');
+const windowStateKeeper = require('electron-window-state');
 const path = require('path');
 
 let mainWindow;
+
+// Set userData path to a subfolder to avoid conflicts with any other Electron apps
+app.setPath('userData', path.join(app.getPath('userData'), 'GrokDesktop'));
 
 // Detect dev mode (VSCode / dev run)
 const isDev =
@@ -11,19 +15,31 @@ const isDev =
   process.env.VSCODE_INSPECTOR_OPTIONS;
 
 function createWindow() {
-  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  // Define your preferred defaults
+  const defaultWidth = 800;
+  const defaultHeight = 1000;
 
-  const windowWidth = 800;
-  const windowHeight = 1000;
+  // Create state manager with defaults (x/y will be undefined → Electron centers)
+  const mainWindowState = windowStateKeeper({
+    defaultWidth,
+    defaultHeight,
+    // You can also set path or file name if you want multiple windows/states
+    // path: app.getPath('userData'),
+    // file: 'grok-window-state.json',
+  });
 
-  const x = Math.floor((width - windowWidth) / 2);
-  const y = Math.floor(height - windowHeight);
+  // Get primary work area (for fallback centering calculation if needed)
+  const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
+
+  // Calculate fallback centered position (only used if state.x/y are undefined)
+  const fallbackX = Math.floor((screenWidth - defaultWidth) / 2);
+  const fallbackY = Math.floor((screenHeight - defaultHeight));
 
   mainWindow = new BrowserWindow({
-    width: windowWidth,
-    height: windowHeight,
-    x,
-    y,
+    x: mainWindowState.x !== undefined ? mainWindowState.x : fallbackX,
+    y: mainWindowState.y !== undefined ? mainWindowState.y : fallbackY,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     title: "Grok Desktop",
     icon: path.join(__dirname, '../assets/GrokDesktop_DS_Icon.png'),
     autoHideMenuBar: true,
@@ -37,10 +53,17 @@ function createWindow() {
     }
   });
 
+  // Let the library manage/remember bounds, maximized state, etc.
+  mainWindowState.manage(mainWindow);
+
   // Load Grok
   mainWindow.loadURL("https://grok.com/");
 
   mainWindow.once('ready-to-show', () => {
+    // Restore maximized state if it was saved that way
+    if (mainWindowState.isMaximized) {
+      mainWindow.maximize();
+    }
     mainWindow.show();
   });
 
@@ -248,6 +271,15 @@ app.whenReady().then(() => {
   ];
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
+  /*let tray = new Tray(path.join(__dirname, '../assets/GrokDesktop_DS_Icon.png'));
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Show Grok', click: () => mainWindow.show() },
+    { label: 'Quit', click: () => app.quit() }
+  ]);
+  tray.setToolTip('Grok Desktop');
+  tray.setContextMenu(contextMenu);
+  tray.on('click', () => mainWindow.show());*/
 });
 
 app.on('window-all-closed', () => {
