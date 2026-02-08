@@ -43,6 +43,13 @@ function createWindow() {
     title: "Grok Desktop",
     icon: path.join(__dirname, '../assets/GrokDesktop_DS_Icon.png'),
     autoHideMenuBar: true,
+    titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
+  titleBarOverlay: process.platform === 'darwin' ? {
+    color: '#1a1a1a',           // Match your Grok background (or make '#00000000' for more transparent)
+    symbolColor: '#ffffff',     // White close/minimize/zoom icons for dark mode
+    height: 38                  // Adjust based on your needs (default inset is ~38px)
+  } : undefined,
+  trafficLightPosition: process.platform === 'darwin' ? { x: 12, y: 12 } : undefined,
     backgroundColor: '#1a1a1a',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -69,6 +76,58 @@ function createWindow() {
 
   const wc = mainWindow.webContents;
 
+  wc.on('did-finish-load', () => {
+    if (process.platform === 'darwin') {
+      wc.insertCSS(`
+      .custom-title-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 38px;
+        background-color: #0f0f0f;       /* Grok dark background – adjust if needed */
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;         /* Centers children horizontally */
+        padding: 0 16px;
+        -webkit-app-region: drag;
+        z-index: 9999;
+        user-select: none;
+        font-size: 13px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+      /* Still prevent drag on future interactive elements if you add any */
+      .custom-title-bar button,
+      .custom-title-bar .window-controls {
+        -webkit-app-region: no-drag;
+      }
+
+      body, #root, main, .flex-1, .min-h-screen {
+        padding-top: 38px !important;
+        box-sizing: border-box !important;
+      }
+    `).catch(err => console.error('Title bar CSS failed:', err));
+
+    // Optional: Add the bar element if Grok doesn't have a header to repurpose
+    wc.executeJavaScript(`
+      if (!document.querySelector('.custom-title-bar')) {
+        const bar = document.createElement('div');
+        bar.className = 'custom-title-bar';
+
+        bar.innerHTML = \`
+          <div style="flex: 1; text-align: center; font-weight: 600;">
+            Grok Desktop
+          </div>
+        \`;
+
+        document.body.prepend(bar);
+      }
+    `);
+    }
+});
+
   // Force window title
   wc.on('page-title-updated', (event) => {
     event.preventDefault();
@@ -77,11 +136,34 @@ function createWindow() {
 
   // Ensure Electron receives right-click events (Grok intercepts them)
   wc.on('dom-ready', () => {
+    console.log("Ready To DOMinate!");
+
     wc.executeJavaScript(`
       document.addEventListener('contextmenu', e => {
         e.stopImmediatePropagation();
       }, true);
     `);
+    if (process.platform === 'darwin') {
+      wc.insertCSS(`
+          body {
+            overflow: hidden;
+            padding-top: 32px !important; /* Adjust based on title bar height */
+          }
+
+          body > div:nth-of-type(2) {
+            padding-top: 32px !important; /* Adjust based on title bar height */
+          }
+
+          html, body, #root, main, [role="main"], div.h-full {
+            padding-bottom: 32px !important;
+            box-sizing: border-box !important;
+          }
+
+          div.w-full.absolute {
+            margin-bottom: 32px !important;
+          }
+      `);
+    }
   });
 
   // Notification permission request (for Grok's web notifications)
