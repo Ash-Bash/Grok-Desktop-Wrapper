@@ -79,15 +79,11 @@ function createWindow() {
   wc.on('did-finish-load', () => {
     if (process.platform === 'darwin') {
       wc.insertCSS(`
-      .custom-title-bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
+      .custom-title-bar, .phy-title-bar {
+        display: flex;
         height: 38px;
         background-color: #0f0f0f;       /* Grok dark background – adjust if needed */
         color: #ffffff;
-        display: flex;
         align-items: center;
         justify-content: center;         /* Centers children horizontally */
         padding: 0 16px;
@@ -96,6 +92,13 @@ function createWindow() {
         user-select: none;
         font-size: 13px;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+      .custom-title-bar { 
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
       }
 
       /* Still prevent drag on future interactive elements if you add any */
@@ -116,6 +119,16 @@ function createWindow() {
             Grok Desktop
           </div>
         \`;
+
+        document.body.prepend(bar);
+      }
+    `);
+
+    // Optional: Add the bar element if Grok doesn't have a header to repurpose
+    wc.executeJavaScript(`
+      if (!document.querySelector('.phy-title-bar')) {
+        const bar = document.createElement('div');
+        bar.className = 'phy-title-bar';
 
         document.body.prepend(bar);
       }
@@ -143,7 +156,6 @@ function createWindow() {
       wc.insertCSS(`
           body {
             overflow: hidden;
-            padding-top: 38px !important; /* Adjust based on title bar height */
           }
 
           div.h-full:not(div.flex.flex-col.justify-between.h-full) {
