@@ -182,10 +182,27 @@ function createWindow() {
             padding-right: 10px !important;
           }
 
-          div.absolute.bottom-0.mx-auto.inset-x-0.max-w-breakout{
-            bottom: 38px !important;
-            padding-left: 10px !important;
-            padding-right: 10px !important;
+          div.absolute.bottom-0.mx-auto.inset-x-0.max-w-breakout {
+              padding-left: 10px !important;
+              padding-right: 10px !important;
+          }
+
+          @container mainview (max-width: 640px) {
+            div.absolute.bottom-0.mx-auto.inset-x-0.max-w-breakout {
+              bottom: 38px !important;
+            }
+          }
+
+          @container mainview (min-width: 640px) {
+            div.absolute.bottom-0.mx-auto.inset-x-0.max-w-breakout {
+              bottom: 0px !important;
+            }
+          }
+
+          @container chat (min-width: 640px) {
+            div.absolute.bottom-0.mx-auto.inset-x-0.max-w-breakout {
+              bottom: 38px !important;
+            }
           }
       `);
     }
