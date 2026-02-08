@@ -103,11 +103,6 @@ function createWindow() {
       .custom-title-bar .window-controls {
         -webkit-app-region: no-drag;
       }
-
-      body, #root, main, .flex-1, .min-h-screen {
-        padding-top: 38px !important;
-        box-sizing: border-box !important;
-      }
     `).catch(err => console.error('Title bar CSS failed:', err));
 
     // Optional: Add the bar element if Grok doesn't have a header to repurpose
@@ -143,6 +138,7 @@ function createWindow() {
         e.stopImmediatePropagation();
       }, true);
     `);
+
     if (process.platform === 'darwin') {
       wc.insertCSS(`
           body {
@@ -150,11 +146,7 @@ function createWindow() {
             padding-top: 32px !important; /* Adjust based on title bar height */
           }
 
-          body > div:nth-of-type(2) {
-            padding-top: 32px !important; /* Adjust based on title bar height */
-          }
-
-          html, body, #root, main, [role="main"], div.h-full {
+          html, body, #root:not(span), main, [role="main"]:not(span), div.h-full:not(span) {
             padding-bottom: 32px !important;
             box-sizing: border-box !important;
           }
