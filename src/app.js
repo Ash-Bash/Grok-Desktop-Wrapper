@@ -220,6 +220,51 @@ function createWindow() {
     shell.openExternal(navigationUrl);
   });*/
 
+  // Intercept new window / popups (e.g. window.open() from Grok Imagine "Compose Post")
+  wc.setWindowOpenHandler(({ url }) => {
+    // Define patterns that should open externally
+    const externalPatterns = [
+      'https://x.com/compose/post',       // Main compose URL
+      'https://x.com/intent/compose',     // Older/alternative compose
+      'https://twitter.com/compose/post', // Legacy twitter.com redirect
+      'https://twitter.com/intent/compose'
+    ];
+
+    const isExternalCompose = externalPatterns.some(pattern => url.startsWith(pattern));
+    const isNotGrokDomain = !url.startsWith('https://grok.com') && 
+                            !url.startsWith('https://x.com/i/grok') &&
+                            !url.startsWith('https://x.com/login');
+
+    if (isExternalCompose || isNotGrokDomain) {
+      // Open in default system browser
+      shell.openExternal(url);
+      return { action: 'deny' }; // Prevent opening inside the app
+    }
+
+    // Allow internal Grok/X navigation to stay in the window
+    return { action: 'allow' };
+  });
+
+  // Also catch direct navigation attempts (e.g. <a href> or programmatic navigation)
+  wc.on('will-navigate', (event, navigationUrl) => {
+    const externalPatterns = [
+      'https://x.com/compose/post',
+      'https://x.com/intent/compose',
+      'https://twitter.com/compose/post',
+      'https://twitter.com/intent/compose'
+    ];
+
+    const isExternalCompose = externalPatterns.some(pattern => navigationUrl.startsWith(pattern));
+    const isNotGrokDomain = !navigationUrl.startsWith('https://grok.com') && 
+                            !navigationUrl.startsWith('https://x.com/i/grok') &&
+                            !navigationUrl.startsWith('https://x.com/login');
+
+    if (isExternalCompose || isNotGrokDomain) {
+      event.preventDefault();
+      shell.openExternal(navigationUrl);
+    }
+  });
+
   // Shortcut: clear session + reload
   globalShortcut.register('CommandOrControl+Shift+L', async () => {
     await session.defaultSession.clearStorageData();
