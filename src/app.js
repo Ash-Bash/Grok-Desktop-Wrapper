@@ -158,7 +158,7 @@ function createWindow() {
             overflow: hidden;
           }
 
-          div.h-full:not(div.flex.flex-col.justify-between.h-full) {
+          div.h-full:not(div.flex.flex-col.justify-between.h-full):not(div.relative.flex.h-full.flex-col.items-center) {
             height: calc(100% - 38px) !important;
           }
 
