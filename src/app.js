@@ -146,7 +146,7 @@ function createWindow() {
             padding-top: 38px !important; /* Adjust based on title bar height */
           }
 
-          div.h-full {
+          div.h-full:not(div.flex.flex-col.justify-between.h-full) {
             height: calc(100% - 38px) !important;
           }
 
@@ -161,11 +161,17 @@ function createWindow() {
           }
 
           div.flex.w-full.h-full.border.border-border-l2.overflow-hidden.items-center.bg-surface-l1.rounded-3xl {
-            height: 100% !important;
+            height: auto !important;
           }
 
           div.h-fit.w-full.pb-5 {
             margin-bottom: 38px !important;
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+          }
+
+          div.absolute.bottom-0.mx-auto.inset-x-0.max-w-breakout{
+            bottom: 38px !important;
             padding-left: 10px !important;
             padding-right: 10px !important;
           }
