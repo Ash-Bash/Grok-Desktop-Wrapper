@@ -44,12 +44,12 @@ function createWindow() {
     icon: path.join(__dirname, '../assets/GrokDesktop_DS_Icon.png'),
     autoHideMenuBar: true,
     titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
-  titleBarOverlay: process.platform === 'darwin' ? {
-    color: '#1a1a1a',           // Match your Grok background (or make '#00000000' for more transparent)
-    symbolColor: '#ffffff',     // White close/minimize/zoom icons for dark mode
-    height: 38                  // Adjust based on your needs (default inset is ~38px)
-  } : undefined,
-  trafficLightPosition: process.platform === 'darwin' ? { x: 12, y: 12 } : undefined,
+    titleBarOverlay: process.platform === 'darwin' ? {
+      color: '#1a1a1a',           // Match your Grok background (or make '#00000000' for more transparent)
+      symbolColor: '#ffffff',     // White close/minimize/zoom icons for dark mode
+      height: 38                  // Adjust based on your needs (default inset is ~38px)
+    } : undefined,
+    trafficLightPosition: process.platform === 'darwin' ? { x: 12, y: 12 } : undefined,
     backgroundColor: '#1a1a1a',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -143,16 +143,31 @@ function createWindow() {
       wc.insertCSS(`
           body {
             overflow: hidden;
-            padding-top: 32px !important; /* Adjust based on title bar height */
+            padding-top: 38px !important; /* Adjust based on title bar height */
           }
 
-          html, body, #root:not(span), main, [role="main"]:not(span), div.h-full:not(span) {
-            padding-bottom: 32px !important;
-            box-sizing: border-box !important;
+          div.h-full {
+            height: calc(100% - 38px) !important;
           }
 
-          div.w-full.absolute {
-            margin-bottom: 32px !important;
+          div.w-full.relative div.absolute.left-0.bottom-0.w-full.p-3 {
+            margin-bottom: 38px !important; /* Move compose button up to avoid title bar */
+          }
+
+          button.inline-flex.items-center.justify-center div, div.relative.w-full div.flex.w-full.h-full.border.border-border-l2.rounded-full.overflow-hidden.items-center.bg-surface-l1 {
+            padding-bottom: 0px !important;
+            margin-bottom: 0px !important;
+            height: 100% !important;
+          }
+
+          div.flex.w-full.h-full.border.border-border-l2.overflow-hidden.items-center.bg-surface-l1.rounded-3xl {
+            height: 100% !important;
+          }
+
+          div.h-fit.w-full.pb-5 {
+            margin-bottom: 38px !important;
+            padding-left: 10px !important;
+            padding-right: 10px !important;
           }
       `);
     }
