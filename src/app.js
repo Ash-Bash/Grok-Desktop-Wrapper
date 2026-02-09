@@ -17,6 +17,16 @@ const isDev =
 // Enable Experimental Features for better web compatibility (optional, test with/without)
 const experimentalFeatures = false; // Set to false if you encounter rendering issues
 
+// Global error handling for robustness
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  // Optionally quit or show dialog
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
 function createWindow() {
   // Define your preferred defaults
   const defaultWidth = 800;
@@ -436,6 +446,11 @@ app.whenReady().then(() => {
   tray.on('click', () => mainWindow.show());*/
 });
 
+// Unregister shortcuts on quit
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
+});
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
@@ -445,6 +460,10 @@ app.on('window-all-closed', () => {
 ========================= */
 
 ipcMain.on('clear-login-details', async () => {
-  await session.defaultSession.clearStorageData();
-  console.log("Login data cleared.");
+  try {
+    await session.defaultSession.clearStorageData();
+    console.log("Login data cleared.");
+  } catch (err) {
+    console.error('Clear login failed:', err);
+  }
 });
