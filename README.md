@@ -42,7 +42,7 @@ Bineries get built in the ```./dist``` Directory
 
 ### Requirements
 * NodeJS ``` ~v22.12.0 LTS```
-* ElectronJS ``` ~v33.2.1 ```
+* ElectronJS ``` ~v40.1.0 ```
 
 
 ## Todos
