@@ -323,70 +323,45 @@ function createWindow() {
     }
   });
 
-  /*// Handle external links - open them in the default browser instead of within the app
-  wc.setWindowOpenHandler(({ url }) => {
-    // Check if the URL is external (not part of grok.com domain)
-    if (url && !url.startsWith('https://grok.com') && !url.startsWith('https://x.com/i/grok')) {
-      shell.openExternal(url);
-      return { action: 'deny' }; // Prevent opening in the app
-    }
-    return { action: 'allow' }; // Allow grok.com links to open within the app
-  });
-
-  // Handle navigation attempts to external URLs
-  wc.on('will-navigate', (event, navigationUrl) => {
-    // Allow navigation within grok.com and x.com/i/grok
-    if (navigationUrl.startsWith('https://grok.com') || 
-        navigationUrl.startsWith('https://x.com/i/grok') ||
-        navigationUrl.startsWith('https://x.com/login')) {
-      return; // Allow the navigation
-    }
-    
-    // For all other URLs, prevent navigation and open in external browser
-    event.preventDefault();
-    shell.openExternal(navigationUrl);
-  });*/
-
   // Intercept new window / popups (e.g. window.open() from Grok Imagine "Compose Post")
   wc.setWindowOpenHandler(({ url }) => {
-    // Define patterns that should open externally
-    const externalPatterns = [
-      'https://x.com/compose/post',       // Main compose URL
-      'https://x.com/intent/compose',     // Older/alternative compose
-      'https://twitter.com/compose/post', // Legacy twitter.com redirect
-      'https://twitter.com/intent/compose'
+    // Define allowed internal patterns
+    const allowedPatterns = [
+      'https://grok.com',
+      'https://x.com/i/grok',
+      'https://x.com/login',
+      'https://x.com/i/web',
+      'https://x.com/i/connect'
     ];
 
-    const isExternalCompose = externalPatterns.some(pattern => url.startsWith(pattern));
-    const isNotGrokDomain = !url.startsWith('https://grok.com') && 
-                            !url.startsWith('https://x.com/i/grok') &&
-                            !url.startsWith('https://x.com/login');
+    // Check if URL starts with any allowed pattern
+    const isInternal = allowedPatterns.some(pattern => url.startsWith(pattern));
 
-    if (isExternalCompose || isNotGrokDomain) {
+    if (!isInternal) {
       // Open in default system browser
       shell.openExternal(url);
       return { action: 'deny' }; // Prevent opening inside the app
     }
 
-    // Allow internal Grok/X navigation to stay in the window
+    // Allow internal navigation
     return { action: 'allow' };
   });
 
   // Also catch direct navigation attempts (e.g. <a href> or programmatic navigation)
   wc.on('will-navigate', (event, navigationUrl) => {
-    const externalPatterns = [
-      'https://x.com/compose/post',
-      'https://x.com/intent/compose',
-      'https://twitter.com/compose/post',
-      'https://twitter.com/intent/compose'
+    // Define allowed internal patterns
+    const allowedPatterns = [
+      'https://grok.com',
+      'https://x.com/i/grok',
+      'https://x.com/login',
+      'https://x.com/i/web',
+      'https://x.com/i/connect'
     ];
 
-    const isExternalCompose = externalPatterns.some(pattern => navigationUrl.startsWith(pattern));
-    const isNotGrokDomain = !navigationUrl.startsWith('https://grok.com') && 
-                            !navigationUrl.startsWith('https://x.com/i/grok') &&
-                            !navigationUrl.startsWith('https://x.com/login');
+    // Check if URL starts with any allowed pattern
+    const isInternal = allowedPatterns.some(pattern => navigationUrl.startsWith(pattern));
 
-    if (isExternalCompose || isNotGrokDomain) {
+    if (!isInternal) {
       event.preventDefault();
       shell.openExternal(navigationUrl);
     }

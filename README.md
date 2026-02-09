@@ -7,7 +7,7 @@ The Grok Desktop Application Wrapper is a versatile tool designed to run on all 
 ```CommandOrControl+Shift+L``` Keyboard Shortcut to Logout
 
 ## Installation
-Binaries Coming Soon
+https://github.com/Ash-Bash/Grok-Desktop-Wrapper/releases 
 
 ## Development
 ### Setup
