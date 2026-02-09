@@ -14,6 +14,9 @@ const isDev =
   process.execArgv.some(arg => arg.includes('--inspect')) ||
   process.env.VSCODE_INSPECTOR_OPTIONS;
 
+// Enable Experimental Features for better web compatibility (optional, test with/without)
+const experimentalFeatures = false; // Set to false if you encounter rendering issues
+
 function createWindow() {
   // Define your preferred defaults
   const defaultWidth = 800;
@@ -43,13 +46,13 @@ function createWindow() {
     title: "Grok Desktop",
     icon: path.join(__dirname, '../assets/GrokDesktop_DS_Icon.png'),
     autoHideMenuBar: true,
-    titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
-    titleBarOverlay: process.platform === 'darwin' ? {
+    titleBarStyle: process.platform === 'darwin' && experimentalFeatures ? 'hiddenInset' : 'default',
+    titleBarOverlay: process.platform === 'darwin' && experimentalFeatures ? {
       color: '#1a1a1a',           // Match your Grok background (or make '#00000000' for more transparent)
       symbolColor: '#ffffff',     // White close/minimize/zoom icons for dark mode
       height: 38                  // Adjust based on your needs (default inset is ~38px)
     } : undefined,
-    trafficLightPosition: process.platform === 'darwin' ? { x: 12, y: 12 } : undefined,
+    trafficLightPosition: process.platform === 'darwin' && experimentalFeatures ? { x: 12, y: 12 } : undefined,
     backgroundColor: '#1a1a1a',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -77,7 +80,7 @@ function createWindow() {
   const wc = mainWindow.webContents;
 
   wc.on('did-finish-load', () => {
-    if (process.platform === 'darwin') {
+    if (process.platform === 'darwin' && experimentalFeatures) {
       wc.insertCSS(`
       .custom-title-bar, .phy-title-bar {
         display: flex;
@@ -152,7 +155,7 @@ function createWindow() {
       }, true);
     `);
 
-    if (process.platform === 'darwin') {
+    if (process.platform === 'darwin' && experimentalFeatures) {
       wc.insertCSS(`
           body {
             overflow: hidden;
